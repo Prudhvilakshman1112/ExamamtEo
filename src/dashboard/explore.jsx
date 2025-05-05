@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AuthNavbar from "../components/Authnavbar";
+import AuthNavbar from "../components/Authnavbar"; // Uncomment this line when navbar is needed
 
 function Explore() {
   const [files, setFiles] = useState([]);
@@ -8,7 +8,6 @@ function Explore() {
   const [error, setError] = useState("");
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // Fetch all files or files by subject
   const fetchAllFiles = async (subject = "") => {
     setLoading(true);
     setError("");
@@ -35,16 +34,22 @@ function Explore() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex flex-col">
-      {/* Uncomment the next line if you want to include the navbar */}
-      {/* <AuthNavbar /> */}
+    <div
+      className="min-h-screen bg-cover bg-center flex flex-col"
+      style={{ backgroundImage: `url('/Flux_Dev_Minimalist_futuristic_digital_background_with_smooth__0.jpg')` }} // Replace with actual path
+    >
+      {/* Navbar (floating) */}
+      {/* <div className="sticky top-0 z-50">
+        <AuthNavbar />
+      </div> */}
+
       <div className="container mx-auto px-6 py-16 flex-1">
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+        {/* Header */}
+        <div className="text-center mb-12 text-white drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
             Explore Files
           </h1>
-          <p className="mt-3 text-lg text-gray-600 max-w-md mx-auto">
+          <p className="mt-3 text-lg max-w-md mx-auto">
             Discover the links and file paths shared by seniors
           </p>
         </div>
@@ -55,25 +60,22 @@ function Explore() {
             e.preventDefault();
             fetchAllFiles(subjectname);
           }}
-          className="max-w-lg mx-auto bg-white shadow-2xl rounded-2xl p-8 border border-gray-300 mb-12"
+          className="max-w-lg mx-auto bg-black bg-opacity-40 shadow-2xl backdrop-blur-md rounded-2xl p-8 border border-gray-300 mb-12 text-white"
         >
           <div className="mb-6">
-            <label
-              htmlFor="subjectname"
-              className="block text-lg font-medium text-gray-800 mb-2"
-            >
+            <label htmlFor="subjectname" className="block text-lg font-medium mb-2">
               Subject Name
             </label>
             <input
               type="text"
               id="subjectname"
-              className="w-full rounded-lg border-gray-300 focus:border-blue-600 focus:ring-blue-600 p-3"
+              className="w-full rounded-lg border-gray-300 focus:border-blue-400 focus:ring-blue-400 p-3 bg-white bg-opacity-80 text-gray-900"
               placeholder="Enter the subject name"
               value={subjectname}
               onChange={(e) => setSubjectname(e.target.value)}
             />
           </div>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+          {error && <p className="text-red-400 mb-4">{error}</p>}
           <button
             type="submit"
             className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg transition duration-300 ease-in-out"
@@ -85,7 +87,7 @@ function Explore() {
         {/* Content Section */}
         {loading ? (
           <div className="text-center">
-            <p className="text-gray-500 text-lg animate-pulse">Loading files...</p>
+            <p className="text-white text-lg animate-pulse">Loading files...</p>
           </div>
         ) : error ? (
           <div className="text-center">
@@ -96,17 +98,15 @@ function Explore() {
             {files.map((file, index) => (
               <div
                 key={index}
-                className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-all duration-200"
+                className="bg-black bg-opacity-40 shadow-lg backdrop-blur-md rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-all duration-200 text-white"
               >
-                <h1 className="text-xl font-semibold text-gray-800 mb-3 truncate">
-                  {file.subject}
-                </h1>
-                <p className="text-sm text-gray-600 mb-2">
+                <h1 className="text-xl font-semibold mb-3 truncate">{file.subject}</h1>
+                <p className="text-sm mb-2">
                   Uploaded by: <span className="font-medium">{file.username}</span>
                 </p>
-                {/* File Paths Section */}
+                {/* File Paths */}
                 <div className="mb-4">
-                  <p className="text-sm text-gray-600 font-medium mb-1">File Paths:</p>
+                  <p className="text-sm font-medium mb-1">File Paths:</p>
                   {file.file_paths && file.file_paths.length > 0 ? (
                     file.file_paths.map((path, idx) => (
                       <div key={idx} className="mb-1">
@@ -114,30 +114,30 @@ function Explore() {
                           href={path}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-indigo-600 hover:text-indigo-800 text-sm break-all"
+                          className="text-blue-300 hover:text-blue-500 text-sm break-all"
                         >
                           {path}
                         </a>
                       </div>
                     ))
                   ) : (
-                    <p className="text-gray-500 text-sm">No file paths available</p>
+                    <p className="text-gray-300 text-sm">No file paths available</p>
                   )}
                 </div>
-                {/* Main Link Section */}
+                {/* Main Link */}
                 <div className="mb-4">
-                  <p className="text-sm text-gray-600 font-medium mb-1">Link:</p>
+                  <p className="text-sm font-medium mb-1">Link:</p>
                   {file.links ? (
                     <a
                       href={file.links}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-indigo-600 hover:text-indigo-800 text-sm break-all"
+                      className="text-blue-300 hover:text-blue-500 text-sm break-all"
                     >
                       {file.links}
                     </a>
                   ) : (
-                    <p className="text-gray-500 text-sm">No link available</p>
+                    <p className="text-gray-300 text-sm">No link available</p>
                   )}
                 </div>
               </div>
@@ -145,7 +145,7 @@ function Explore() {
           </div>
         ) : (
           <div className="text-center">
-            <p className="text-gray-500 text-lg">No files found.</p>
+            <p className="text-white text-lg">No files found.</p>
           </div>
         )}
       </div>
